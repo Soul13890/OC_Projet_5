@@ -1,5 +1,4 @@
 const express = require('express');
-const Book = require('./models/Book');
 const userRoutes = require('./routes/user');
 const bookRoutes = require('./routes/book');
 const path = require('path');
