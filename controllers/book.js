@@ -64,7 +64,7 @@ exports.modifyBook = async (req, res, next) => {
     const book = await Book.findOne({ _id: req.params.id });
 
     if (book.userId !== req.auth.userId) {
-      return res.status(401).json({ message: 'Not authorized' });
+      return res.status(401).json({ message: 'Non autorisé' });
     }
 
     let imageUrl = book.imageUrl;
@@ -106,7 +106,7 @@ exports.deleteBook = (req, res, next) => {
    Book.findOne({ _id: req.params.id})
        .then(book => {
            if (book.userId != req.auth.userId) {
-               res.status(401).json({message: 'Not authorized'});
+               res.status(401).json({message: 'Non autorisé'});
            } else {
                const filename = book.imageUrl.split('/images/')[1];
                fs.unlink(`images/${filename}`, () => {
