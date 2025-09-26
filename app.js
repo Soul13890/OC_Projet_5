@@ -3,6 +3,7 @@ const userRoutes = require('./routes/user');
 const bookRoutes = require('./routes/book');
 const path = require('path');
 
+// Connexion à la base de données
 const mongoose = require('mongoose');
 const uri = "mongodb+srv://Admin:testpassword@cluster0.z1ytgzu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };

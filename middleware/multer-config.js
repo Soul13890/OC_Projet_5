@@ -2,6 +2,7 @@ const multer = require('multer');
 
 const storage = multer.memoryStorage();
 
+// Filtrage des types de fichiers uploadable
 const fileFilter = (req, file, callback) => {
   const isValidMime = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp'].includes(file.mimetype);
   if (isValidMime) {
@@ -11,6 +12,7 @@ const fileFilter = (req, file, callback) => {
   }
 };
 
+// Gestion et formatage des images
 module.exports = multer({
   storage,
   fileFilter,

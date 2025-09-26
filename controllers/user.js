@@ -2,32 +2,37 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-exports.signup = (req, res, next) => {
-  bcrypt.hash(req.body.password, 10)
+// Inscription d'un nouvel utilisateur
+exports.signup = (req, res, next) => {    
+  bcrypt.hash(req.body.password, 10) // Hachage du mot de passe
     .then(hash => {
         console.log(req.body.email + " " + hash);
+        // Création d'un objet User avec les infos récupérées
       const user = new User({
         email: req.body.email,
         password: hash
-      });
-      user.save()
+      });      
+      user.save() // Sauvegarde du l'utilisateur dans la base de données
         .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
         .catch(error => res.status(400).json({ error }));
     })
     .catch(error => res.status(500).json({ error }));
 };
 
+// Connexion d'un utilisateur
 exports.login = (req, res, next) => {
-   User.findOne({ email: req.body.email })
+   User.findOne({ email: req.body.email }) // Recherche de l'utilisateur dans la base de données
        .then(user => {
            if (!user) {
                return res.status(401).json({ error: 'Utilisateur non trouvé !' });
            }
+           // Comparaison des mots de passe
            bcrypt.compare(req.body.password, user.password)
                .then(valid => {
                    if (!valid) {
                        return res.status(401).json({ error: 'Mot de passe incorrect !' });
                    }
+                   // Création d'un token d'authentification unique pour cet utilisateur
                    res.status(200).json({
                        userId: user._id,
                        token: jwt.sign(
